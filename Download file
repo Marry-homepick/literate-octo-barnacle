@@ -1,0 +1,16 @@
+import requests
+
+def download_file(url, local_filename):
+    # Send a HTTP request to the specified URL
+    with requests.get(url, stream=True) as response:
+        response.raise_for_status()  # Check if the request was successful
+        # Open the local file in binary write mode
+        with open(local_filename, 'wb') as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+    print(f"Downloaded file: {local_filename}")
+
+# Example usage
+url = 'https://example.com/path/to/file'
+local_filename = 'downloaded_file.ext'
+download_file(url, local_filename)
